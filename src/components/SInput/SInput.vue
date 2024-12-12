@@ -16,7 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, withDefaults } from 'vue'
 
 const props = withDefaults(defineProps<{
   prependIcon?: string
