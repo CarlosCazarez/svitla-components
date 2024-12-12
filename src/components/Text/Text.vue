@@ -19,7 +19,6 @@
     label: 'Label Placeholder'
   }))
 
-  console.log(props)
   const classObj = computed(() => ({
     'text-black': props.primary,
     'text-red-500': props.secondary,
