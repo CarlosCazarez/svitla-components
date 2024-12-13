@@ -1,17 +1,17 @@
 <template>
   <div class="container flex flex-col text-start">
-    <div class="flex items-center">
-      <label for="input" class="text-sm" :class="classObj">{{ label }}</label>
+    <div class="flex items-center mb-1">
+      <label for="input" class="text-md text font-semibold" :class="classObj">{{ label }}</label>
       <span v-if="props.required" className="text-red-500">*</span>
     </div>
-    <input class="text-black border border-gray-200 pl-1 line-height-2"
+    <input class="text-black border-2 border-gray-200 pl-2 line-height-5 rounded-[10px] h-12"
       :class="inputClassObj"
       :type="props.type"
       :value="props.modelValue"
       :placeholder="props.placeholder"
-      @input="emit('update:modelValue', $event.target.value)"
+      @input="handleInput"
     /> 
-    <p v-if="props.errorMsg" className="mt-1 text-xs text-red-500" role="alert" aria-live="polite">
+    <p v-if="props.errorMsg" className="mt-1 text-sm text-red-500" role="alert" aria-live="polite">
       {{ errorMsg }}
     </p>
 </div>
@@ -20,8 +20,7 @@
 <script lang="ts" setup>
 
   import { computed } from 'vue';
-  const modelValue = defineModel();
-  const emit = defineEmits();
+  const emit = defineEmits(['update:modelValue']);
 
   const props = withDefaults(defineProps<{
     type?: string,
@@ -47,11 +46,18 @@
   'text-red-500': props.secondary
  }));
 
- const inputClassObj = computed(() => ({
-  ...props.inputClass,
-  'bg-gray-100 pointer-events-none': props.disabled,
-  'bg-black text-white': props.secondary
- }))
+ const inputClassObj = computed(() => {
+  const inputClasses = props.inputClass;
+  return {
+    inputClasses,
+    'bg-gray-100 pointer-events-none': props.disabled,
+    'bg-black text-white': props.secondary,
+  }
+});
 
+const handleInput = (evt: Event) => {
+  const input = evt.target as HTMLInputElement;
+  emit('update:modelValue', input.value)
+}
 </script>
 
